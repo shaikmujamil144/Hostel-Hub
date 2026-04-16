@@ -1,0 +1,47 @@
+model Student {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String   @unique
+  roomId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  room      Room     @relation(fields: [roomId], references: [id])
+}
+
+model Room {
+  id        Int      @id @default(autoincrement())
+  roomNumber String   @unique
+  capacity  Int
+  students  Student[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  amount    Float
+  date      DateTime @default(now())
+  status    String
+  student   Student   @relation(fields: [studentId], references: [id])
+}
+
+model Complaint {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  description String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   Student   @relation(fields: [studentId], references: [id])
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}

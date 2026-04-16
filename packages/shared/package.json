@@ -1,0 +1,25 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "Shared utilities and types for the HostelHub application.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.5.0",
+    "jest": "^27.0.0",
+    "@types/jest": "^27.0.0"
+  },
+  "keywords": [
+    "hostelhub",
+    "shared",
+    "utilities",
+    "types"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

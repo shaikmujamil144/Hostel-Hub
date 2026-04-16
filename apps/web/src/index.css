@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --hh-bg: #f5f4ef;
+  --hh-bg-secondary: #e9e4d8;
+  --hh-surface: #fffdf8;
+  --hh-text: #221e18;
+  --hh-muted: #6e675d;
+  --hh-border: #dfd5c8;
+  --hh-primary: #0f766e;
+  --hh-primary-strong: #0f5f59;
+  --hh-accent: #ca8a04;
+  --hh-danger: #c2410c;
+  --hh-ink-soft: rgba(34, 30, 24, 0.06);
+}
+
+.dark {
+  --hh-bg: #141816;
+  --hh-bg-secondary: #1f2522;
+  --hh-surface: #1b211e;
+  --hh-text: #f5f3eb;
+  --hh-muted: #beb7aa;
+  --hh-border: #38413c;
+  --hh-primary: #2dd4bf;
+  --hh-primary-strong: #14b8a6;
+  --hh-accent: #fbbf24;
+  --hh-danger: #f97316;
+  --hh-ink-soft: rgba(245, 243, 235, 0.08);
+}
+
+@layer base {
+  * {
+    @apply border-transparent;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    position: relative;
+    font-family: 'Manrope', sans-serif;
+    color: var(--hh-text);
+    background:
+      radial-gradient(circle at 8% 8%, rgba(15, 118, 110, 0.18), transparent 30%),
+      radial-gradient(circle at 90% 12%, rgba(217, 119, 6, 0.12), transparent 33%),
+      radial-gradient(circle at 50% 120%, rgba(14, 116, 144, 0.14), transparent 44%),
+      linear-gradient(160deg, var(--hh-bg) 0%, var(--hh-bg-secondary) 100%);
+    @apply transition-colors duration-300;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--hh-ink-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hh-ink-soft) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at 50% 10%, black, transparent 78%);
+    z-index: -1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .hh-fade-in {
+    animation: hhFadeIn 0.5s ease-out both;
+  }
+
+  .hh-surface {
+    background: color-mix(in srgb, var(--hh-surface) 92%, white 8%);
+    border: 1px solid var(--hh-border);
+    @apply rounded-2xl shadow-sm;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .hh-card {
+    background: color-mix(in srgb, var(--hh-surface) 92%, white 8%);
+    border: 1px solid var(--hh-border);
+    @apply rounded-2xl shadow-sm;
+  }
+
+  .hh-glass {
+    background: color-mix(in srgb, var(--hh-surface) 72%, transparent 28%);
+    border: 1px solid color-mix(in srgb, var(--hh-border) 65%, white 35%);
+    backdrop-filter: blur(14px);
+  }
+
+  .hh-gradient-title {
+    background: linear-gradient(120deg, var(--hh-primary-strong), var(--hh-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hh-chip {
+    border: 1px solid var(--hh-border);
+    background: color-mix(in srgb, var(--hh-surface) 88%, white 12%);
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold;
+  }
+
+  .hh-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hh-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(15, 23, 42, 0.12);
+  }
+
+  .hh-input {
+    border: 1px solid var(--hh-border);
+    background: color-mix(in srgb, var(--hh-surface) 90%, white 10%);
+    color: var(--hh-text);
+    @apply w-full rounded-xl px-4 py-2.5 text-sm outline-none transition-all;
+  }
+
+  .hh-input:focus {
+    border-color: var(--hh-primary);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+  }
+
+  .hh-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all;
+  }
+
+  .hh-btn-primary {
+    @apply hh-btn text-white;
+    background: linear-gradient(135deg, var(--hh-primary) 0%, var(--hh-primary-strong) 100%);
+  }
+
+  .hh-btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+  }
+
+  .hh-btn-accent {
+    @apply hh-btn text-white;
+    background: linear-gradient(135deg, var(--hh-accent) 0%, #b45309 100%);
+  }
+
+  .hh-btn-danger {
+    @apply hh-btn text-white;
+    background: linear-gradient(135deg, var(--hh-danger) 0%, #9a3412 100%);
+  }
+
+  .hh-muted {
+    color: var(--hh-muted);
+  }
+}
+
+@keyframes hhFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hhFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}

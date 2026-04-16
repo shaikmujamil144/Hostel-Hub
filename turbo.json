@@ -1,0 +1,25 @@
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["apps/web/build/**", "apps/api/build/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^test"],
+      "outputs": []
+    },
+    "dev": {
+      "dependsOn": ["build"],
+      "outputs": []
+    }
+  },
+  "global": {
+    "cache": {
+      "paths": ["node_modules/.cache/**"]
+    }
+  }
+}
