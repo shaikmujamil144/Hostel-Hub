@@ -27,19 +27,35 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick, darkMode, toggleDarkMode }
     try {
       const response = await fetchNotifications({ page: 1, limit: 8 });
       setNotifications(response.data);
+    } catch {
+      // Keep UI stable on intermittent network errors.
     } finally {
       setLoadingNotifications(false);
     }
   };
 
   useEffect(() => {
+    if (!userInfo?.token) return;
+
     loadNotifications();
 
-    const interval = setInterval(() => {
-      loadNotifications();
-    }, 20000);
+    const onVisible = () => {
+      if (!document.hidden) {
+        loadNotifications();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
 
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (!document.hidden) {
+        loadNotifications();
+      }
+    }, 60000);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo?.token]);
 
@@ -75,7 +91,7 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick, darkMode, toggleDarkMode }
 
         <div>
           <p className="text-xs uppercase tracking-[0.2em] hh-muted">Daily control panel</p>
-          <h1 className="text-lg font-bold text-[color:var(--hh-text)]">
+          <h1 className="text-base font-bold text-[color:var(--hh-text)] sm:text-lg">
             Hostel <span className="hh-gradient-title">Operations</span>
           </h1>
         </div>
@@ -99,7 +115,7 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick, darkMode, toggleDarkMode }
           </button>
 
           {notificationPanelOpen && (
-            <div className="absolute right-0 top-12 z-40 w-80 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl dark:border-white/10 dark:bg-stone-950">
+            <div className="absolute right-0 top-12 z-40 w-[85vw] max-w-80 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl dark:border-white/10 dark:bg-stone-950">
               <div className="flex items-center justify-between border-b border-black/10 px-4 py-3 dark:border-white/10">
                 <p className="text-sm font-semibold text-[color:var(--hh-text)]">Notifications</p>
                 <button

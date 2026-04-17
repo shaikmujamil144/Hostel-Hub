@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       )}
 
       <aside 
-        className={`fixed inset-y-0 left-0 z-30 w-72 border-r border-white/20 bg-stone-900/95 text-stone-100 shadow-2xl backdrop-blur-xl transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-30 w-[85vw] max-w-72 border-r border-white/20 bg-stone-900/95 text-stone-100 shadow-2xl backdrop-blur-xl transform transition-transform duration-300 ease-in-out lg:static lg:w-72 lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
-                  `group relative flex items-center rounded-xl px-4 py-3 text-sm font-medium transition-all ${
+                  `group relative flex items-center rounded-xl px-4 py-3.5 text-sm font-medium transition-all ${
                     isActive 
                       ? 'bg-gradient-to-r from-teal-500/25 to-emerald-400/20 text-white shadow-lg shadow-teal-900/30 before:absolute before:bottom-2 before:left-1 before:top-2 before:w-1 before:rounded-full before:bg-teal-300' 
                       : 'text-stone-300 hover:bg-white/10 hover:text-white'

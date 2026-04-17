@@ -42,8 +42,8 @@ const Layout: React.FC = () => {
           toggleDarkMode={() => setDarkMode(!darkMode)} 
         />
         
-        <main className="flex-1 overflow-y-auto p-3 md:p-6">
-          <div className="hh-glass hh-fade-in mx-auto w-full max-w-7xl rounded-[28px] border border-white/20 p-3 md:p-5 dark:border-white/10">
+        <main className="flex-1 overflow-y-auto p-2 sm:p-3 md:p-6">
+          <div className="hh-glass hh-fade-in mx-auto w-full max-w-7xl rounded-2xl border border-white/20 p-2.5 sm:p-3 md:rounded-[28px] md:p-5 dark:border-white/10">
             <Outlet />
           </div>
         </main>

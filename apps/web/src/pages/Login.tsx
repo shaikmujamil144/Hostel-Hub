@@ -20,6 +20,8 @@ type HostelOption = {
 };
 
 type Mode = 'student-login' | 'admin-login' | 'student-register' | 'forgot-password';
+const HOSTEL_CACHE_KEY = 'hostelhub_hostels_cache_v1';
+const HOSTEL_CACHE_TTL_MS = 5 * 60 * 1000;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -53,11 +55,30 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const loadHostels = async () => {
+      const cachedRaw = sessionStorage.getItem(HOSTEL_CACHE_KEY);
+      if (cachedRaw) {
+        try {
+          const cached = JSON.parse(cachedRaw) as { data: HostelOption[]; timestamp: number };
+          if (Array.isArray(cached.data) && Date.now() - cached.timestamp < HOSTEL_CACHE_TTL_MS) {
+            setHostels(cached.data);
+          }
+        } catch {
+          sessionStorage.removeItem(HOSTEL_CACHE_KEY);
+        }
+      }
+
       try {
         const { data } = await api.get('/auth/hostels');
-        setHostels(data || []);
+        const nextHostels = data || [];
+        setHostels(nextHostels);
+        sessionStorage.setItem(
+          HOSTEL_CACHE_KEY,
+          JSON.stringify({ data: nextHostels, timestamp: Date.now() })
+        );
       } catch {
-        setHostels([]);
+        if (!cachedRaw) {
+          setHostels([]);
+        }
       }
     };
 
