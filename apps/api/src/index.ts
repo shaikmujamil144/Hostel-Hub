@@ -25,7 +25,11 @@ import { ensureDevelopmentBootstrapData } from './services/bootstrapService';
 
 dotenv.config();
 
-const normalizeOrigin = (value: string) => value.trim().replace(/\/+$/, '');
+const normalizeOrigin = (value: string) =>
+  value
+    .trim()
+    .replace(/^['\"]|['\"]$/g, '')
+    .replace(/\/+$/, '');
 
 const configuredFrontendOrigins = String(process.env.FRONTEND_URL || '')
   .split(',')
@@ -42,6 +46,7 @@ const isAllowedOrigin = (origin?: string) => {
   if (!origin) return true;
   const normalizedOrigin = normalizeOrigin(origin);
   if (allowedOrigins.has(normalizedOrigin)) return true;
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(normalizedOrigin)) return true;
   return /^http:\/\/localhost:\d+$/.test(origin);
 };
 
